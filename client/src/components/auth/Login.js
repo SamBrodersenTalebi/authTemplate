@@ -20,6 +20,7 @@ const Login = () => {
       email,
       password,
     };
+    console.log(userData);
   };
 
   return (
@@ -38,24 +39,28 @@ const Login = () => {
               Don't have an account? <Link to='/register'>Register</Link>
             </p>
           </div>
-          <form noValidate onSubmit={onSubmit}>
+          <form noValidate onSubmit={(e) => onSubmit(e)}>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={email}
                 error={errors.email}
                 id='email'
                 type='email'
+                name='email'
+                required
               />
               <label htmlFor='email'>Email</label>
             </div>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={password}
                 error={errors.password}
                 id='password'
                 type='password'
+                required
+                name='password'
               />
               <label htmlFor='password'>Password</label>
             </div>

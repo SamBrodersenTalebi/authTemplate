@@ -12,8 +12,9 @@ const Register = () => {
 
   const { name, email, password, password2, errors } = formData;
 
-  const onChange = (e) =>
+  const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -41,44 +42,52 @@ const Register = () => {
               Already have an account? <Link to='/login'>Log in</Link>
             </p>
           </div>
-          <form noValidate onSubmit={onSubmit}>
+          <form noValidate onSubmit={(e) => onSubmit(e)}>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={name}
                 error={errors.name}
                 id='name'
                 type='text'
+                required
+                name='name'
               />
               <label htmlFor='name'>Name</label>
             </div>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={email}
                 error={errors.email}
                 id='email'
                 type='email'
+                name='email'
+                required
               />
               <label htmlFor='email'>Email</label>
             </div>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={password}
                 error={errors.password}
                 id='password'
                 type='password'
+                name='password'
+                required
               />
               <label htmlFor='password'>Password</label>
             </div>
             <div className='input-field col s12'>
               <input
-                onChange={onChange}
+                onChange={(e) => onChange(e)}
                 value={password2}
                 error={errors.password2}
                 id='password2'
                 type='password'
+                name='password2'
+                required
               />
               <label htmlFor='password2'>Confirm Password</label>
             </div>
