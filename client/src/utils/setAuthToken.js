@@ -1,4 +1,6 @@
 import axios from 'axios';
+
+//used to delete authorization header based on user login or not
 const setAuthToken = (token) => {
   if (token) {
     // Apply authorization token to every request if logged in

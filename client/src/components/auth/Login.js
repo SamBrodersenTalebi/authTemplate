@@ -20,7 +20,6 @@ const Login = () => {
       email,
       password,
     };
-    console.log(userData);
   };
 
   return (
