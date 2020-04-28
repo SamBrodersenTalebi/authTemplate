@@ -3,7 +3,13 @@ import loginService from './services/login';
 import './App.css';
 import Navbar from './components/layout/Navbar';
 import Landing from './components/layout/Landing';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+} from 'react-router-dom';
 import Register from './components/auth/Register';
 import Login from './components/auth/Login';
 
@@ -18,10 +24,29 @@ const App = () => {
   const login = async (e) => {
     e.preventDefault();
     const { email, password } = formDataLogin;
+    console.log('hello');
     try {
       const user = await loginService.login({ email, password });
       console.log(user);
-    } catch (error) {}
+      //save user to local storage:
+      window.localStorage.setItem('loggedInUser', JSON.stringify(user));
+      //user is object with token, name and success status
+      setUser(user);
+      setFormDataLogin({
+        password: '',
+        email: '',
+      });
+      setMessage('Login Sucessfull' + 'Welcome' + user.name);
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+    } catch (error) {
+      setMessage('Invalid user or password');
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
+      console.log(error);
+    }
   };
 
   const loginChange = (e) => {
@@ -46,6 +71,9 @@ const App = () => {
           </Route>
           <Route path='/register'>
             <Register />
+          </Route>
+          <Route path='/dashboard'>
+            {user ? <Dashboard /> : <Redirect to='/login' />}
           </Route>
         </Switch>
       </div>
