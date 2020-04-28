@@ -1,27 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-const Login = () => {
-  const [formData, setFormData] = useState({
-    email: '',
-    password: '',
-    errors: {},
-  });
-
-  const { email, password, errors } = formData;
-
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const onSubmit = (e) => {
-    e.preventDefault();
-    const userData = {
-      email,
-      password,
-    };
-  };
-
+const Login = ({ password, email, onSubmit, handleChange }) => {
   return (
     <div className='container'>
       <div style={{ marginTop: '4rem' }} className='row'>
@@ -38,12 +18,11 @@ const Login = () => {
               Don't have an account? <Link to='/register'>Register</Link>
             </p>
           </div>
-          <form noValidate onSubmit={(e) => onSubmit(e)}>
+          <form noValidate onSubmit={onSubmit}>
             <div className='input-field col s12'>
               <input
-                onChange={(e) => onChange(e)}
+                onChange={handleChange}
                 value={email}
-                error={errors.email}
                 id='email'
                 type='email'
                 name='email'
@@ -53,9 +32,8 @@ const Login = () => {
             </div>
             <div className='input-field col s12'>
               <input
-                onChange={(e) => onChange(e)}
+                onChange={handleChange}
                 value={password}
-                error={errors.password}
                 id='password'
                 type='password'
                 required
