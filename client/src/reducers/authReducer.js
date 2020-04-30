@@ -1,18 +1,17 @@
 import { SET_CURRENT_USER, USER_LOADING } from '../actions/types';
-//isEmpty use to Check if a value is empty
 const isEmpty = require('is-empty');
-const initialState = {
+
+const initalState = {
   isAuthenticated: false,
-  user: {},
+  user: null,
   loading: false,
 };
-export default function (state = initialState, action) {
+const authReducer = (state = initalState, action) => {
   switch (action.type) {
-    case SET_CURRENT_USER:
+    case LOGIN:
       return {
         ...state,
-        //returns true if it is not empty
-        isAuthenticated: !isEmpty(action.payload),
+        token: !isEmpty(action.payload),
         user: action.payload,
       };
     case USER_LOADING:
@@ -23,4 +22,6 @@ export default function (state = initialState, action) {
     default:
       return state;
   }
-}
+};
+
+export default authReducer;

@@ -4,20 +4,21 @@ import jwt_decode from 'jwt-decode';
 import { GET_ERRORS, SET_CURRENT_USER, USER_LOADING } from './types';
 
 // Register User
-export const registerUser = (userData) => async (dispatch) => {
+export const registerUser = (userData, history) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
     },
   };
-
   //const body = JSON.stringify(userData);
   try {
     const res = await axios.post('/api/users/register', userData, config);
+    //once regisetered push to login page
+    history.push('/login');
   } catch (error) {
     dispatch({
       type: GET_ERRORS,
-      payload: error.response.data,
+      payload: err.response.data,
     });
   }
 };
@@ -29,13 +30,12 @@ export const loginUser = (userData) => async (dispatch) => {
       'Content-Type': 'application/json',
     },
   };
-
   try {
     const res = await axios.post('/api/users/login', userData, config);
     // Save to localStorage
     // Set token to localStorage
     const { token } = res.data;
-    localStorage.setItem('jwtToken', token);
+    window.localStorage.setItem('jwtToken', token);
     // Set token to Auth header
     setAuthToken(token);
     // Decode token to get user data
@@ -50,6 +50,7 @@ export const loginUser = (userData) => async (dispatch) => {
     });
   }
 };
+
 // Set logged in user
 export const setCurrentUser = (decoded) => {
   return {
@@ -57,16 +58,18 @@ export const setCurrentUser = (decoded) => {
     payload: decoded,
   };
 };
+
 // User loading
 export const setUserLoading = () => {
   return {
     type: USER_LOADING,
   };
 };
+
 // Log user out
-export const logoutUser = () => (dispatch) => {
+export const logoutUser = () => () => {
   // Remove token from local storage
-  localStorage.removeItem('jwtToken');
+  window.localStorage.removeItem('jwtToken');
   // Remove auth header for future requests
   setAuthToken(false);
   // Set current user to empty object {} which will set isAuthenticated to false
