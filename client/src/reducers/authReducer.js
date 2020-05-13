@@ -8,7 +8,7 @@ const initalState = {
 };
 const authReducer = (state = initalState, action) => {
   switch (action.type) {
-    case LOGIN:
+    case SET_CURRENT_USER:
       return {
         ...state,
         token: !isEmpty(action.payload),
